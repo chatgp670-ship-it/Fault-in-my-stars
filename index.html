@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f1eb">
+<title>Beyond My Feelings</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="book-shell">
+  <header class="topbar">
+    <button class="icon-btn" id="menuBtn" aria-label="Open menu">☰</button>
+    <div class="monogram">F <span>∞</span></div>
+    <button class="icon-btn" id="musicBtn" aria-label="Music">♪</button>
+  </header>
+
+  <main class="book" id="book">
+    <section class="page active" data-page="0">
+      <div class="page-inner cover">
+        <p class="kicker">A small collection of things I noticed</p>
+        <h1>Beyond<br><em>my feelings.</em></h1>
+        <p class="intro">Not a confession.<br>Just a few pages worth being curious about.</p>
+        <button class="start-btn" data-next>Open the book <span>→</span></button>
+      </div>
+    </section>
+
+    <section class="page" data-page="1">
+      <div class="page-inner split">
+        <div class="copy">
+          <p class="kicker">01 · Her little world</p>
+          <h2>The sea<br><em>comes first.</em></h2>
+          <p>There is a whole quiet universe in the way she notices small creatures.</p>
+          <p class="note">Tap a picture.</p>
+        </div>
+        <div class="mosaic">
+          <button class="photo p-a" data-lightbox="assets/fish-flowerhorn.jpg" data-caption="A very particular face."><img src="assets/fish-flowerhorn.jpg" alt="Fish"></button>
+          <button class="photo p-b" data-lightbox="assets/betta.jpg" data-caption="Blue, quiet, dramatic."><img src="assets/betta.jpg" alt="Betta fish"></button>
+          <button class="photo p-c" data-lightbox="assets/seahorse.jpg" data-caption="A tiny creature that belongs in a story."><img src="assets/seahorse.jpg" alt="Seahorse"></button>
+          <button class="photo p-d" data-lightbox="assets/turtle.jpg" data-caption="Slow is still a way of moving."><img src="assets/turtle.jpg" alt="Sea turtle"></button>
+          <button class="photo p-e" data-lightbox="assets/shark.jpg" data-caption="Even the big ones get a place here."><img src="assets/shark.jpg" alt="Shark"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="2">
+      <div class="page-inner drawings-page">
+        <div class="copy centered-copy">
+          <p class="kicker">02 · Things she creates</p>
+          <h2>Her hands<br><em>say enough.</em></h2>
+          <p>Four pages from the sketchbook. No gallery voice. Just the work.</p>
+        </div>
+        <div class="sketchbook">
+          <button class="sketch s1" data-lightbox="assets/drawing-blue.jpg" data-caption="Blue ink."><img src="assets/drawing-blue.jpg" alt="Drawing in blue ink"></button>
+          <button class="sketch s2" data-lightbox="assets/drawing-pencil.jpg" data-caption="A page from the notebook."><img src="assets/drawing-pencil.jpg" alt="Pencil drawing"></button>
+          <button class="sketch s3" data-lightbox="assets/drawing-red.jpg" data-caption="Red pencil."><img src="assets/drawing-red.jpg" alt="Red drawing"></button>
+          <button class="sketch s4" data-lightbox="assets/drawing-soft.jpg" data-caption="Soft graphite."><img src="assets/drawing-soft.jpg" alt="Graphite drawing"></button>
+        </div>
+      </div>
+    </section>
+
+    <section class="page" data-page="3">
+      <div class="page-inner memory">
+        <div class="memory-copy">
+          <p class="kicker">03 · A room of its own</p>
+          <h2>Max</h2>
+          <p class="years">2012 — 2025</p>
+          <p>Some companions become part of the shape of a life.</p>
+          <p class="quiet">This page does not need a lot of words.</p>
+        </div>
+        <figure class="max-card">
+          <img src="assets/max.jpg" alt="Max">
+          <figcaption>A memory that deserves its own room.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="page dark-page" data-page="4">
+      <div class="stars"></div>
+      <div class="page-inner universe">
+        <div class="copy">
+          <p class="kicker">04 · My little universe</p>
+          <h2>She has<br><em>an ocean.</em></h2>
+          <h2>I've got<br><em>the sky.</em></h2>
+          <p>Stars, orbits, and machines that keep moving around something bigger.</p>
+        </div>
+        <figure class="iss-card">
+          <img src="assets/iss.jpg" alt="International Space Station">
+          <figcaption>ISS · NASA</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="page dark-page" data-page="5">
+      <div class="stars soft-stars"></div>
+      <div class="page-inner meeting">
+        <div class="orbital-ring"></div>
+        <div class="floating fish-float"><img src="assets/betta.jpg" alt=""></div>
+        <div class="floating sea-float"><img src="assets/seahorse.jpg" alt=""></div>
+        <p class="kicker">05 · Somewhere in between</p>
+        <h2>What if<br><em>the water met the sky?</em></h2>
+        <div class="equation"><span>her world</span><b>+</b><span>my universe</span><b>= ?</b></div>
+        <p class="hint">Maybe neither one has to change.</p>
+      </div>
+    </section>
+
+    <section class="page" data-page="6">
+      <div class="page-inner music-page">
+        <div class="music-mark">♪</div>
+        <p class="kicker">06 · Family evidence</p>
+        <h2>“Did you fall for it,<br><em>Fomfom?”</em></h2>
+        <p>Apparently, my family had a question ready whenever this song came on.</p>
+        <div class="player">
+          <div class="track">Maybe I fell for it</div>
+          <div class="track-sub">a tiny 20 → 30 second clue</div>
+          <button class="play" id="yimkenBtn">Play the clue <span>▶</span></button>
+        </div>
+        <div class="word-strip">derly · ferly · animal loving · <em>I wish they became 1000.</em></div>
+      </div>
+    </section>
+
+    <section class="page final-page dark-page" data-page="7">
+      <div class="stars"></div>
+      <div class="page-inner finale">
+        <p class="kicker">07 · No confession</p>
+        <h2>I'm not going<br><em>to say it.</em></h2>
+        <p>But if curiosity wins, there is one last little door.</p>
+        <button class="curious" id="curiosityBtn">I'm curious <span>→</span></button>
+        <div class="secret" id="secret">
+          <div class="secret-card">
+            <button class="secret-close" id="secretClose">×</button>
+            <p>Everything here was intentional.</p>
+            <p class="small">The old picture. The ocean. The drawings. Max. The stars.</p>
+            <p class="soft">But the last detail?</p>
+            <p class="soft">I'll let you wonder.</p>
+            <button class="canon" id="canonBtn">Canon in D · play the last page ♪</button>
+            <div class="quote">Some things are better discovered than confessed.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <button class="tap-zone left" id="prevBtn" aria-label="Previous page"></button>
+  <button class="tap-zone right" id="nextBtn" aria-label="Next page"></button>
+
+  <footer class="controls">
+    <button id="prevSmall">←</button>
+    <div><span id="pageNo">01</span><i></i><span>08</span></div>
+    <button id="nextSmall">→</button>
+  </footer>
+</div>
+
+<aside class="menu" id="menu">
+  <button class="menu-close" id="menuClose">×</button>
+  <p class="kicker">A quiet little map</p>
+  <button data-go="0">Cover</button>
+  <button data-go="1">Her little world</button>
+  <button data-go="2">Her drawings</button>
+  <button data-go="3">Max</button>
+  <button data-go="4">My universe</button>
+  <button data-go="5">Somewhere in between</button>
+  <button data-go="6">Family evidence</button>
+  <button data-go="7">The last page</button>
+</aside>
+<div class="menu-backdrop" id="menuBackdrop"></div>
+
+<div class="lightbox" id="lightbox">
+  <button id="lightboxClose">×</button>
+  <img id="lightboxImg" alt="">
+  <div id="lightboxCaption"></div>
+</div>
+
+<audio id="yimken" src="assets/yimken-habeit.mp3" preload="metadata"></audio>
+<audio id="canon" src="assets/canon-in-d.mp3" preload="metadata"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
