@@ -1,182 +1,1069 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#f6f1eb">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
 <title>Beyond My Feelings</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="styles.css">
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap');
+
+:root{
+  --bg:#eeeae3;
+  --ink:#171614;
+  --muted:#77716a;
+  --soft:#c9beb2;
+  --rose:#a97878;
+  --white:#f8f5ef;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html,body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:"DM Sans",sans-serif;
+  cursor:none;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* =========================
+   MAIN STAGE
+========================= */
+
+#stage{
+  position:relative;
+  width:100vw;
+  height:100vh;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(
+      circle at var(--mx,50%) var(--my,50%),
+      rgba(255,255,255,.8),
+      transparent 34%
+    ),
+    var(--bg);
+}
+
+#grain{
+  position:absolute;
+  inset:-50%;
+  z-index:20;
+  pointer-events:none;
+  opacity:.08;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+  transform:rotate(8deg);
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  padding:32px 42px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  z-index:30;
+}
+
+.logo{
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+}
+
+.menu{
+  width:42px;
+  height:42px;
+  border:1px solid rgba(0,0,0,.18);
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  transition:.35s;
+}
+
+.menu:hover{
+  background:var(--ink);
+  color:white;
+  transform:rotate(90deg);
+}
+
+.menu span{
+  width:14px;
+  height:1px;
+  background:currentColor;
+  position:relative;
+}
+
+.menu span::after{
+  content:"";
+  position:absolute;
+  width:14px;
+  height:1px;
+  background:currentColor;
+  top:5px;
+}
+
+/* =========================
+   SCENES
+========================= */
+
+.scene{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:100px 8vw;
+  opacity:0;
+  visibility:hidden;
+  transform:scale(1.04);
+  transition:
+    opacity 900ms cubic-bezier(.22,1,.36,1),
+    transform 1100ms cubic-bezier(.22,1,.36,1);
+}
+
+.scene.active{
+  opacity:1;
+  visibility:visible;
+  transform:scale(1);
+}
+
+/* =========================
+   TYPOGRAPHY
+========================= */
+
+.content{
+  width:min(1000px,100%);
+  position:relative;
+  z-index:5;
+}
+
+.eyebrow{
+  font-size:10px;
+  letter-spacing:.35em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:28px;
+}
+
+.title{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(55px,10vw,145px);
+  font-weight:400;
+  line-height:.84;
+  letter-spacing:-.055em;
+  max-width:950px;
+}
+
+.title i{
+  color:var(--rose);
+  font-weight:400;
+}
+
+.description{
+  margin-top:38px;
+  max-width:420px;
+  font-size:14px;
+  line-height:1.9;
+  color:var(--muted);
+}
+
+.center{
+  text-align:center;
+}
+
+.center .description{
+  margin-left:auto;
+  margin-right:auto;
+}
+
+/* =========================
+   ARTWORK
+========================= */
+
+.orbit{
+  position:absolute;
+  width:min(48vw,600px);
+  aspect-ratio:1;
+  border:1px solid rgba(30,25,20,.12);
+  border-radius:50%;
+  right:4vw;
+  top:50%;
+  transform:translateY(-50%);
+  pointer-events:none;
+}
+
+.orbit::before,
+.orbit::after{
+  content:"";
+  position:absolute;
+  border:1px solid rgba(30,25,20,.08);
+  border-radius:50%;
+  inset:12%;
+}
+
+.orbit::after{
+  inset:27%;
+}
+
+.planet{
+  position:absolute;
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--rose);
+  top:14%;
+  left:50%;
+  box-shadow:0 0 30px rgba(169,120,120,.5);
+}
+
+.sketch{
+  position:absolute;
+  width:min(42vw,520px);
+  right:10%;
+  bottom:10%;
+  opacity:.85;
+  pointer-events:none;
+}
+
+.sketch svg{
+  width:100%;
+  height:auto;
+}
+
+.sketch path,
+.sketch circle,
+.sketch ellipse{
+  stroke:#4b4743;
+  stroke-width:1.2;
+  fill:none;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+/* =========================
+   IMAGE FRAME
+========================= */
+
+.frame{
+  position:absolute;
+  right:9%;
+  top:50%;
+  width:min(30vw,390px);
+  aspect-ratio:4/5;
+  transform:translateY(-50%) rotate(2deg);
+  background:
+    linear-gradient(135deg,#ddd5ca,#f8f4ed);
+  box-shadow:
+    0 35px 90px rgba(55,45,35,.14);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.frame::before{
+  content:"";
+  position:absolute;
+  inset:13px;
+  border:1px solid rgba(0,0,0,.12);
+}
+
+.frame span{
+  font-family:"Playfair Display",serif;
+  font-size:clamp(28px,4vw,55px);
+  color:#a59a91;
+  transform:rotate(-4deg);
+}
+
+/* =========================
+   FINAL
+========================= */
+
+.final-mark{
+  width:120px;
+  height:120px;
+  border:1px solid rgba(0,0,0,.15);
+  border-radius:50%;
+  margin:0 auto 45px;
+  display:grid;
+  place-items:center;
+  position:relative;
+}
+
+.final-mark::before{
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--rose);
+}
+
+.final-mark::after{
+  content:"";
+  position:absolute;
+  inset:15px;
+  border:1px solid rgba(0,0,0,.08);
+  border-radius:50%;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  position:absolute;
+  bottom:30px;
+  left:42px;
+  right:42px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  z-index:30;
+}
+
+.hint{
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:#938a83;
+}
+
+.progress{
+  display:flex;
+  gap:6px;
+}
+
+.progress span{
+  display:block;
+  width:28px;
+  height:1px;
+  background:#c8c0b9;
+  transition:.5s;
+}
+
+.progress span.active{
+  background:var(--ink);
+  width:45px;
+}
+
+/* =========================
+   CURSOR
+========================= */
+
+#cursor{
+  position:fixed;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--ink);
+  pointer-events:none;
+  z-index:100;
+  transform:translate(-50%,-50%);
+  transition:
+    width .25s,
+    height .25s,
+    background .25s;
+}
+
+#cursor-ring{
+  position:fixed;
+  width:38px;
+  height:38px;
+  border:1px solid rgba(0,0,0,.3);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:99;
+  transform:translate(-50%,-50%);
+  transition:transform .15s ease-out;
+}
+
+body.hover #cursor{
+  width:14px;
+  height:14px;
+  background:var(--rose);
+}
+
+body.hover #cursor-ring{
+  width:55px;
+  height:55px;
+  border-color:var(--rose);
+}
+
+/* =========================
+   MENU PANEL
+========================= */
+
+#panel{
+  position:absolute;
+  inset:0;
+  z-index:50;
+  background:rgba(238,234,227,.94);
+  backdrop-filter:blur(20px);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  opacity:0;
+  pointer-events:none;
+  transition:.5s;
+}
+
+#panel.open{
+  opacity:1;
+  pointer-events:auto;
+}
+
+.panel-inner{
+  text-align:center;
+}
+
+.panel-inner button{
+  display:block;
+  background:none;
+  border:0;
+  font-family:"Playfair Display",serif;
+  font-size:clamp(35px,6vw,70px);
+  margin:18px;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.panel-inner button:hover{
+  color:var(--rose);
+  transform:translateX(10px);
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:700px){
+
+  body{
+    cursor:auto;
+  }
+
+  #cursor,
+  #cursor-ring{
+    display:none;
+  }
+
+  header{
+    padding:24px;
+  }
+
+  footer{
+    left:24px;
+    right:24px;
+    bottom:22px;
+  }
+
+  .scene{
+    padding:100px 26px 100px;
+    align-items:center;
+  }
+
+  .title{
+    font-size:clamp(50px,17vw,90px);
+  }
+
+  .description{
+    font-size:13px;
+    max-width:310px;
+  }
+
+  .orbit{
+    width:100vw;
+    right:-35vw;
+    opacity:.55;
+  }
+
+  .frame{
+    width:48vw;
+    right:8%;
+    top:62%;
+    opacity:.55;
+  }
+
+  .sketch{
+    width:80vw;
+    right:-10%;
+    bottom:16%;
+    opacity:.3;
+  }
+
+  .hint{
+    font-size:8px;
+  }
+
+  .progress span{
+    width:15px;
+  }
+
+  .progress span.active{
+    width:25px;
+  }
+}
+</style>
 </head>
+
 <body>
-<div class="book-shell">
-  <header class="topbar">
-    <button class="icon-btn" id="menuBtn" aria-label="Open menu">☰</button>
-    <div class="monogram">F <span>∞</span></div>
-    <button class="icon-btn" id="musicBtn" aria-label="Music">♪</button>
-  </header>
 
-  <main class="book" id="book">
-    <section class="page active" data-page="0">
-      <div class="page-inner cover">
-        <p class="kicker">A small collection of things I noticed</p>
-        <h1>Beyond<br><em>my feelings.</em></h1>
-        <p class="intro">Not a confession.<br>Just a few pages worth being curious about.</p>
-        <button class="start-btn" data-next>Open the book <span>→</span></button>
-      </div>
-    </section>
+<div id="stage">
 
-    <section class="page" data-page="1">
-      <div class="page-inner split">
-        <div class="copy">
-          <p class="kicker">01 · Her little world</p>
-          <h2>The sea<br><em>comes first.</em></h2>
-          <p>There is a whole quiet universe in the way she notices small creatures.</p>
-          <p class="note">Tap a picture.</p>
-        </div>
-        <div class="mosaic">
-          <button class="photo p-a" data-lightbox="assets/fish-flowerhorn.jpg" data-caption="A very particular face."><img src="assets/fish-flowerhorn.jpg" alt="Fish"></button>
-          <button class="photo p-b" data-lightbox="assets/betta.jpg" data-caption="Blue, quiet, dramatic."><img src="assets/betta.jpg" alt="Betta fish"></button>
-          <button class="photo p-c" data-lightbox="assets/seahorse.jpg" data-caption="A tiny creature that belongs in a story."><img src="assets/seahorse.jpg" alt="Seahorse"></button>
-          <button class="photo p-d" data-lightbox="assets/turtle.jpg" data-caption="Slow is still a way of moving."><img src="assets/turtle.jpg" alt="Sea turtle"></button>
-          <button class="photo p-e" data-lightbox="assets/shark.jpg" data-caption="Even the big ones get a place here."><img src="assets/shark.jpg" alt="Shark"></button>
-        </div>
-      </div>
-    </section>
+<div id="grain"></div>
 
-    <section class="page" data-page="2">
-      <div class="page-inner drawings-page">
-        <div class="copy centered-copy">
-          <p class="kicker">02 · Things she creates</p>
-          <h2>Her hands<br><em>say enough.</em></h2>
-          <p>Four pages from the sketchbook. No gallery voice. Just the work.</p>
-        </div>
-        <div class="sketchbook">
-          <button class="sketch s1" data-lightbox="assets/drawing-blue.jpg" data-caption="Blue ink."><img src="assets/drawing-blue.jpg" alt="Drawing in blue ink"></button>
-          <button class="sketch s2" data-lightbox="assets/drawing-pencil.jpg" data-caption="A page from the notebook."><img src="assets/drawing-pencil.jpg" alt="Pencil drawing"></button>
-          <button class="sketch s3" data-lightbox="assets/drawing-red.jpg" data-caption="Red pencil."><img src="assets/drawing-red.jpg" alt="Red drawing"></button>
-          <button class="sketch s4" data-lightbox="assets/drawing-soft.jpg" data-caption="Soft graphite."><img src="assets/drawing-soft.jpg" alt="Graphite drawing"></button>
-        </div>
-      </div>
-    </section>
+<header>
+  <div class="logo">Beyond / Feelings</div>
 
-    <section class="page" data-page="3">
-      <div class="page-inner memory">
-        <div class="memory-copy">
-          <p class="kicker">03 · A room of its own</p>
-          <h2>Max</h2>
-          <p class="years">2012 — 2025</p>
-          <p>Some companions become part of the shape of a life.</p>
-          <p class="quiet">This page does not need a lot of words.</p>
-        </div>
-        <figure class="max-card">
-          <img src="assets/max.jpg" alt="Max">
-          <figcaption>A memory that deserves its own room.</figcaption>
-        </figure>
-      </div>
-    </section>
+  <div class="menu" id="menu">
+    <span></span>
+  </div>
+</header>
 
-    <section class="page dark-page" data-page="4">
-      <div class="stars"></div>
-      <div class="page-inner universe">
-        <div class="copy">
-          <p class="kicker">04 · My little universe</p>
-          <h2>She has<br><em>an ocean.</em></h2>
-          <h2>I've got<br><em>the sky.</em></h2>
-          <p>Stars, orbits, and machines that keep moving around something bigger.</p>
-        </div>
-        <figure class="iss-card">
-          <img src="assets/iss.jpg" alt="International Space Station">
-          <figcaption>ISS · NASA</figcaption>
-        </figure>
-      </div>
-    </section>
 
-    <section class="page dark-page" data-page="5">
-      <div class="stars soft-stars"></div>
-      <div class="page-inner meeting">
-        <div class="orbital-ring"></div>
-        <div class="floating fish-float"><img src="assets/betta.jpg" alt=""></div>
-        <div class="floating sea-float"><img src="assets/seahorse.jpg" alt=""></div>
-        <p class="kicker">05 · Somewhere in between</p>
-        <h2>What if<br><em>the water met the sky?</em></h2>
-        <div class="equation"><span>her world</span><b>+</b><span>my universe</span><b>= ?</b></div>
-        <p class="hint">Maybe neither one has to change.</p>
-      </div>
-    </section>
+<!-- =========================
+     SCENE 01
+========================= -->
 
-    <section class="page" data-page="6">
-      <div class="page-inner music-page">
-        <div class="music-mark">♪</div>
-        <p class="kicker">06 · Family evidence</p>
-        <h2>“Did you fall for it,<br><em>Fomfom?”</em></h2>
-        <p>Apparently, my family had a question ready whenever this song came on.</p>
-        <div class="player">
-          <div class="track">Maybe I fell for it</div>
-          <div class="track-sub">a tiny 20 → 30 second clue</div>
-          <button class="play" id="yimkenBtn">Play the clue <span>▶</span></button>
-        </div>
-        <div class="word-strip">derly · ferly · animal loving · <em>I wish they became 1000.</em></div>
-      </div>
-    </section>
+<section class="scene active">
 
-    <section class="page final-page dark-page" data-page="7">
-      <div class="stars"></div>
-      <div class="page-inner finale">
-        <p class="kicker">07 · No confession</p>
-        <h2>I'm not going<br><em>to say it.</em></h2>
-        <p>But if curiosity wins, there is one last little door.</p>
-        <button class="curious" id="curiosityBtn">I'm curious <span>→</span></button>
-        <div class="secret" id="secret">
-          <div class="secret-card">
-            <button class="secret-close" id="secretClose">×</button>
-            <p>Everything here was intentional.</p>
-            <p class="small">The old picture. The ocean. The drawings. Max. The stars.</p>
-            <p class="soft">But the last detail?</p>
-            <p class="soft">I'll let you wonder.</p>
-            <button class="canon" id="canonBtn">Canon in D · play the last page ♪</button>
-            <div class="quote">Some things are better discovered than confessed.</div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
+  <div class="content">
 
-  <button class="tap-zone left" id="prevBtn" aria-label="Previous page"></button>
-  <button class="tap-zone right" id="nextBtn" aria-label="Next page"></button>
+    <div class="eyebrow">
+      00 — Before anything was said
+    </div>
 
-  <footer class="controls">
-    <button id="prevSmall">←</button>
-    <div><span id="pageNo">01</span><i></i><span>08</span></div>
-    <button id="nextSmall">→</button>
-  </footer>
+    <h1 class="title">
+      Some things<br>
+      are easier<br>
+      to <i>feel.</i>
+    </h1>
+
+    <p class="description">
+      I didn't know how to say it.
+      So I left a few little things here instead.
+    </p>
+
+  </div>
+
+  <div class="orbit">
+    <div class="planet"></div>
+  </div>
+
+</section>
+
+
+<!-- =========================
+     SCENE 02
+========================= -->
+
+<section class="scene">
+
+  <div class="content">
+
+    <div class="eyebrow">
+      01 — A small collection
+    </div>
+
+    <h1 class="title">
+      Things I<br>
+      <i>remember.</i>
+    </h1>
+
+    <p class="description">
+      Little details tend to stay longer than
+      the things we actually try to remember.
+    </p>
+
+  </div>
+
+  <div class="sketch">
+
+    <svg viewBox="0 0 600 400">
+
+      <path d="M95 310
+               C130 220 155 130 250 105
+               C340 80 440 145 500 85"/>
+
+      <ellipse cx="295" cy="175" rx="105" ry="135"/>
+
+      <path d="M215 155
+               C240 130 275 125 300 145"/>
+
+      <path d="M320 145
+               C345 125 380 130 405 155"/>
+
+      <circle cx="265" cy="160" r="5"/>
+      <circle cx="355" cy="160" r="5"/>
+
+      <path d="M270 230 C310 250 345 250 380 225"/>
+
+      <path d="M180 310 C220 345 390 350 445 300"/>
+
+    </svg>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     SCENE 03
+========================= -->
+
+<section class="scene">
+
+  <div class="content">
+
+    <div class="eyebrow">
+      02 — You probably noticed
+    </div>
+
+    <h1 class="title">
+      Maybe<br>
+      you <i>noticed.</i>
+    </h1>
+
+    <p class="description">
+      Maybe it was the music.
+      Maybe it was the drawings.
+      Maybe it was something else entirely.
+    </p>
+
+  </div>
+
+  <div class="frame">
+    <span>old<br>memories</span>
+  </div>
+
+</section>
+
+
+<!-- =========================
+     SCENE 04
+========================= -->
+
+<section class="scene">
+
+  <div class="content">
+
+    <div class="eyebrow">
+      03 — Almost saying it
+    </div>
+
+    <h1 class="title">
+      I could<br>
+      tell you.<br>
+      <i>But...</i>
+    </h1>
+
+    <p class="description">
+      Where would the fun be in that?
+    </p>
+
+  </div>
+
+</section>
+
+
+<!-- =========================
+     SCENE 05
+========================= -->
+
+<section class="scene center">
+
+  <div class="content">
+
+    <div class="final-mark"></div>
+
+    <div class="eyebrow">
+      04 — That's all
+    </div>
+
+    <h1 class="title">
+      For now.
+    </h1>
+
+    <p class="description">
+      Some answers are better when
+      you find them yourself.
+    </p>
+
+  </div>
+
+</section>
+
+
+<footer>
+
+  <div class="hint">
+    Tap anywhere to continue
+  </div>
+
+  <div class="progress">
+    <span class="active"></span>
+    <span></span>
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+
+</footer>
+
+
+<!-- =========================
+     MENU
+========================= -->
+
+<div id="panel">
+
+  <div class="panel-inner">
+
+    <button data-go="0">Beginning</button>
+    <button data-go="1">Memories</button>
+    <button data-go="2">Maybe</button>
+    <button data-go="3">Almost</button>
+    <button data-go="4">For now</button>
+
+  </div>
+
 </div>
 
-<aside class="menu" id="menu">
-  <button class="menu-close" id="menuClose">×</button>
-  <p class="kicker">A quiet little map</p>
-  <button data-go="0">Cover</button>
-  <button data-go="1">Her little world</button>
-  <button data-go="2">Her drawings</button>
-  <button data-go="3">Max</button>
-  <button data-go="4">My universe</button>
-  <button data-go="5">Somewhere in between</button>
-  <button data-go="6">Family evidence</button>
-  <button data-go="7">The last page</button>
-</aside>
-<div class="menu-backdrop" id="menuBackdrop"></div>
 
-<div class="lightbox" id="lightbox">
-  <button id="lightboxClose">×</button>
-  <img id="lightboxImg" alt="">
-  <div id="lightboxCaption"></div>
-</div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
-<audio id="yimken" src="assets/yimken-habeit.mp3" preload="metadata"></audio>
-<audio id="canon" src="assets/canon-in-d.mp3" preload="metadata"></audio>
 
-<script src="script.js"></script>
+<script>
+
+/* ==========================================
+   SCENE ENGINE
+========================================== */
+
+const scenes = [...document.querySelectorAll(".scene")];
+const bars   = [...document.querySelectorAll(".progress span")];
+
+let current = 0;
+let locked = false;
+
+function showScene(index){
+
+  if(locked) return;
+
+  locked = true;
+
+  current =
+    (index + scenes.length) %
+    scenes.length;
+
+  scenes.forEach((scene,i)=>{
+
+    scene.classList.toggle(
+      "active",
+      i === current
+    );
+
+  });
+
+  bars.forEach((bar,i)=>{
+
+    bar.classList.toggle(
+      "active",
+      i === current
+    );
+
+  });
+
+  setTimeout(()=>{
+    locked = false;
+  },850);
+}
+
+
+/* ==========================================
+   CLICK ANYWHERE
+========================================== */
+
+document
+  .getElementById("stage")
+  .addEventListener("click",(event)=>{
+
+    if(
+      event.target.closest(".menu") ||
+      event.target.closest("#panel") ||
+      event.target.closest("button")
+    ) return;
+
+    showScene(current + 1);
+
+  });
+
+
+/* ==========================================
+   KEYBOARD
+========================================== */
+
+document.addEventListener("keydown",(e)=>{
+
+  if(e.key === "ArrowRight" ||
+     e.key === "ArrowDown" ||
+     e.key === " "){
+
+    showScene(current + 1);
+
+  }
+
+  if(e.key === "ArrowLeft" ||
+     e.key === "ArrowUp"){
+
+    showScene(current - 1);
+
+  }
+
+});
+
+
+/* ==========================================
+   SWIPE
+========================================== */
+
+let touchStartX = 0;
+
+document.addEventListener(
+  "touchstart",
+  e=>{
+    touchStartX =
+      e.changedTouches[0].clientX;
+  },
+  {passive:true}
+);
+
+document.addEventListener(
+  "touchend",
+  e=>{
+
+    const end =
+      e.changedTouches[0].clientX;
+
+    const distance =
+      end - touchStartX;
+
+    if(Math.abs(distance) > 60){
+
+      if(distance < 0)
+        showScene(current + 1);
+      else
+        showScene(current - 1);
+
+    }
+
+  },
+  {passive:true}
+);
+
+
+/* ==========================================
+   MENU
+========================================== */
+
+const menu =
+  document.getElementById("menu");
+
+const panel =
+  document.getElementById("panel");
+
+menu.addEventListener("click",(e)=>{
+
+  e.stopPropagation();
+
+  panel.classList.toggle("open");
+
+});
+
+panel.addEventListener("click",(e)=>{
+
+  const button =
+    e.target.closest("[data-go]");
+
+  if(!button) return;
+
+  showScene(
+    Number(button.dataset.go)
+  );
+
+  panel.classList.remove("open");
+
+});
+
+
+/* ==========================================
+   MOUSE PARALLAX
+========================================== */
+
+document.addEventListener("mousemove",(e)=>{
+
+  const x =
+    e.clientX / window.innerWidth;
+
+  const y =
+    e.clientY / window.innerHeight;
+
+  document
+    .getElementById("stage")
+    .style
+    .setProperty(
+      "--mx",
+      `${x*100}%`
+    );
+
+  document
+    .getElementById("stage")
+    .style
+    .setProperty(
+      "--my",
+      `${y*100}%`
+    );
+
+  const orbit =
+    document.querySelector(".orbit");
+
+  if(orbit){
+
+    orbit.style.transform =
+      `translate(
+        ${x*18-9}px,
+        calc(-50% + ${y*18-9}px)
+      )`;
+
+  }
+
+});
+
+
+/* ==========================================
+   PREMIUM CURSOR
+========================================== */
+
+const cursor =
+  document.getElementById("cursor");
+
+const ring =
+  document.getElementById("cursor-ring");
+
+let mouseX = 0;
+let mouseY = 0;
+let ringX = 0;
+let ringY = 0;
+
+document.addEventListener("mousemove",(e)=>{
+
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+
+  cursor.style.left =
+    mouseX + "px";
+
+  cursor.style.top =
+    mouseY + "px";
+
+});
+
+function animateCursor(){
+
+  ringX +=
+    (mouseX-ringX)*.12;
+
+  ringY +=
+    (mouseY-ringY)*.12;
+
+  ring.style.left =
+    ringX+"px";
+
+  ring.style.top =
+    ringY+"px";
+
+  requestAnimationFrame(
+    animateCursor
+  );
+
+}
+
+animateCursor();
+
+
+/* ==========================================
+   HOVER EFFECT
+========================================== */
+
+document
+  .querySelectorAll(
+    ".menu,.panel-inner button"
+  )
+  .forEach(el=>{
+
+    el.addEventListener(
+      "mouseenter",
+      ()=>{
+        document.body
+          .classList
+          .add("hover");
+      }
+    );
+
+    el.addEventListener(
+      "mouseleave",
+      ()=>{
+        document.body
+          .classList
+          .remove("hover");
+      }
+    );
+
+  });
+
+
+/* ==========================================
+   PREVENT DOUBLE TAP ZOOM
+========================================== */
+
+let lastTap = 0;
+
+document.addEventListener(
+  "touchend",
+  e=>{
+
+    const now = Date.now();
+
+    if(now-lastTap < 300){
+      e.preventDefault();
+    }
+
+    lastTap = now;
+
+  },
+  {passive:false}
+);
+
+</script>
+
 </body>
 </html>
